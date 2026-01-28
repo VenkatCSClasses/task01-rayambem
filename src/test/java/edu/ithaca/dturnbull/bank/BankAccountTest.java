@@ -27,7 +27,31 @@ class BankAccountTest {
         assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
         assertFalse( BankAccount.isEmailValid(""));         // empty string
 
-        
+        // added by Ruth
+        assertFalse(BankAccount.isEmailValid("invalid.email"));   // missing domain
+        assertFalse(BankAccount.isEmailValid("a@b"));             // missing top-level domain
+        assertFalse(BankAccount.isEmailValid("@b.com"));          // missing username
+
+        assertTrue(BankAccount.isEmailValid("abc-d@mail.com"));
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.com"));
+        assertTrue(BankAccount.isEmailValid("abc@mail.com"));
+        assertTrue(BankAccount.isEmailValid("abc_def@mail.com"));
+
+        assertFalse(BankAccount.isEmailValid("abc-@mail.com"));
+        assertFalse(BankAccount.isEmailValid("abc..def@mail.com"));
+        assertFalse(BankAccount.isEmailValid(".abc@mail.com"));
+        assertFalse(BankAccount.isEmailValid("abc#def@mail.com"));
+
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.cc"));
+        assertTrue(BankAccount.isEmailValid("abc.def@mail-archive.com"));
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.org"));
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.com"));
+
+        assertFalse(BankAccount.isEmailValid("abc.def@mail.c"));
+        assertFalse(BankAccount.isEmailValid("abc.def@mail#archive.com"));
+        assertFalse(BankAccount.isEmailValid("abc.def@mail..com"));
+        assertFalse(BankAccount.isEmailValid("abc.def@mail"));
+        assertFalse(BankAccount.isEmailValid("abc.def@@mail"));
     }
 
     @Test

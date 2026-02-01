@@ -26,11 +26,11 @@ class BankAccountTest {
 
         /* Using Equivalence Partitioning and Boundary Value Analysis */
         
-        // Equivalence class: valid withdrawal amounts
+        // Equivalence class: valid withdrawal amounts (0 < amount <= balance)
         bankAccount.withdraw(50); // valid amount
         assertEquals(50, bankAccount.getBalance(), 0.001);
 
-        bankAccount.withdraw(50); // boundary case: withdrawing remaining balance
+        bankAccount.withdraw(50); // boundary case: withdrawing remaining balance (amount = balance)
         assertEquals(0, bankAccount.getBalance(), 0.001);
 
         // Equivalence class: invalid withdrawal amounts

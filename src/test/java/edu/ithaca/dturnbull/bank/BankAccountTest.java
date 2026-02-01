@@ -23,6 +23,19 @@ class BankAccountTest {
 
         assertEquals(100, bankAccount.getBalance(), 0.001);
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
+
+        /* Using Equivalence Partitioning and Boundary Value Analysis */
+        
+        // Equivalence class: valid withdrawal amounts
+        bankAccount.withdraw(50); // valid amount
+        assertEquals(50, bankAccount.getBalance(), 0.001);
+
+        bankAccount.withdraw(50); // boundary case: withdrawing remaining balance
+        assertEquals(0, bankAccount.getBalance(), 0.001);
+
+        // Equivalence class: invalid withdrawal amounts
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(10)); // invalid: exceeds balance
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-20)); // invalid: negative amount
     }
 
     @Test

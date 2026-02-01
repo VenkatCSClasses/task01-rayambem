@@ -112,6 +112,61 @@ class BankAccountTest {
         // Equivalence class: invalid email with multiple '@' symbols
         // Not a boundary case, but tests overall structure
         assertFalse(BankAccount.isEmailValid("abc.def@@mail"));
+
+    }
+
+    @Test
+    void isEmailValidTestEP(){
+        // Equivalence Partitions Testing for isEmailValid
+
+        // Equivalence class - username length
+        assertTrue(BankAccount.isEmailValid("abc@mail.com"));
+        assertTrue(BankAccount.isEmailValid("a@mail.com")); // boundary case
+        assertFalse(BankAccount.isEmailValid("@mail.com")); // invalid case
+
+        // Equivalence class - domain length
+        assertTrue(BankAccount.isEmailValid("abc@mail.com"));
+        assertTrue(BankAccount.isEmailValid("abc@a.com")); // boundary case
+        // assertFalse(BankAccount.isEmailValid("abc@.com")); // invalid case
+
+        // Equivalence class - tld length
+        assertTrue(BankAccount.isEmailValid("abc@mail.com"));
+        assertTrue(BankAccount.isEmailValid("abc@mail.cc")); // boundary case
+        assertFalse(BankAccount.isEmailValid("abc@mail.c")); // invalid case
+        assertFalse(BankAccount.isEmailValid("abc@mail.")); // invalid case
+
+        // Equivalence class - valid characters in username
+        assertTrue(BankAccount.isEmailValid("abc.de__f--123@mail.com"));
+        assertFalse(BankAccount.isEmailValid("-_@mail.com")); // invalid case
+        assertFalse(BankAccount.isEmailValid("-name_@mail.com")); // invalid case
+        assertFalse(BankAccount.isEmailValid("((@mail.com")); // invalid case
+
+        // Equivalence class - valid characters in domain
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.com"));
+        assertTrue(BankAccount.isEmailValid("abc.def@mail-archive.com"));
+        assertFalse(BankAccount.isEmailValid("abc.def@mail#archive.com")); // invalid case
+
+        // Equivalence class - valid characters in tld
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.com"));
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.c-o_m"));
+        assertFalse(BankAccount.isEmailValid("abc.def@mail.c#om")); // invalid case
+
+        // Equivalence class - only one '@' symbol
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.com"));
+        assertFalse(BankAccount.isEmailValid("abc.def@@mail.com")); // invalid case
+
+        // Equivalence class - no consecutive dots
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.com"));
+        assertFalse(BankAccount.isEmailValid("abc..def@mail..com")); // invalid case
+
+        // Equivalence class - must have a dot in domain (after '@')
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.com"));
+        assertFalse(BankAccount.isEmailValid("abc.def@mailcom")); // invalid case
+
+        // Equivalence class - no spaces
+        assertTrue(BankAccount.isEmailValid("abc.def@mail.com"));
+        assertFalse(BankAccount.isEmailValid("abc def@mail.com")); // invalid case
+
     }
 
     @Test

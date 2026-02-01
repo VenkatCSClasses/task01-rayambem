@@ -57,7 +57,9 @@ public class BankAccount {
     }
 
     // email cannot contain illegal characters
-    if (email.contains("#")) {
+    if (email.contains("#") || email.contains("$") || email.contains("%") || email.contains("^") ||
+        email.contains("&") || email.contains("*") || email.contains("(") || email.contains(")") ||
+        email.contains("=") || email.contains("+") || email.contains("!") || email.contains("~") ) {
         return false;
     }
 

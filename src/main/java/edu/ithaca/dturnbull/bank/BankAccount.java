@@ -40,6 +40,17 @@ public class BankAccount {
     }
     balance -= amount;
     }
+    
+    /**
+     * Checks whether a money amount is valid.
+     *
+     * @param amount the amount to check
+     * @return true if the amount is non-negative and has at most two decimal places,
+     *         false otherwise
+     */
+    public static boolean isAmountValid(double amount) {
+        return false; // temporary, per assignment instructions
+    }
 
     public static boolean isEmailValid(String email) {
 
@@ -100,9 +111,10 @@ public class BankAccount {
     if (domain.length() - lastDotIndex <= 2) {
         return false;
     }
-
+    
     // passed all checks
     return true;
 }
+    
 
 }

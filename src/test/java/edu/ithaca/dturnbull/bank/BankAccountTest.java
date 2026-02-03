@@ -43,6 +43,10 @@ class BankAccountTest {
         // Equivalence class: invalid withdrawal amounts
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(10)); // invalid: exceeds balance
         assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-20)); // invalid: negative amount
+
+        //check that withdrawal with more than 2 decimal places throws exception
+        BankAccount bankAccount2 = new BankAccount("a@b.com", 100);
+        assertThrows(IllegalArgumentException.class, () -> bankAccount2.withdraw(10.999));
     }
 
     @Test
@@ -197,6 +201,12 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance(), 0.001);
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+
+        // check for exception with negative starting balance
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -100));
+
+        //check for exception with too many decimal places in starting balance
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 100.999));
     }
 
     @Test
@@ -220,7 +230,7 @@ class BankAccountTest {
         assertTrue(BankAccount.isAmountValid(200.25)); // valid with 2 decimal places
         assertTrue(BankAccount.isAmountValid(0.99)); // BVA boundary between 2dp and 3dp
         assertFalse(BankAccount.isAmountValid(200.999)); // invalid with 3 decimal places
-        
+
         assertFalse(BankAccount.isAmountValid(-50)); // invalid with negative number
         
     }

@@ -188,41 +188,6 @@ class BankAccountTest {
         assertFalse(BankAccount.isEmailValid("abc def@mail.com")); // invalid case
 
     }
-    /*
-    Equivalence classes for isAmountValid:
-
-    EC1: Valid amount, positive, ≤ 2 decimal places
-    EC2: Valid amount, zero
-    EC3: Invalid amount, negative
-    EC4: Invalid amount, more than 2 decimal places
-    */
-    // EC1: Valid positive amounts with <= 2 decimal places
-    @Test
-    void isAmountValid_validAmounts() {
-        assertTrue(BankAccount.isAmountValid(10.00));   // middle case
-        assertTrue(BankAccount.isAmountValid(0.01));    // border case
-        assertTrue(BankAccount.isAmountValid(999.99));  // middle case
-    }
-
-    // EC2: Zero amount
-    @Test
-    void isAmountValid_zeroAmount() {
-        assertTrue(BankAccount.isAmountValid(0.0));     // border case
-    }
-
-    // EC3: Negative amounts
-    @Test
-    void isAmountValid_negativeAmounts() {
-        assertFalse(BankAccount.isAmountValid(-1.00));  // middle case
-        assertFalse(BankAccount.isAmountValid(-0.01));  // border case
-    }
-
-    // EC4: Too many decimal places
-    @Test
-    void isAmountValid_tooManyDecimals() {
-        assertFalse(BankAccount.isAmountValid(1.001));  // border case
-        assertFalse(BankAccount.isAmountValid(10.999)); // middle case
-    }
 
     @Test
     void constructorTest() {

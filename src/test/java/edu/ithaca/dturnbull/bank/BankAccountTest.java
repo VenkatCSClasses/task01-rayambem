@@ -199,4 +199,30 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
     }
 
+    @Test
+    void isAmountValidTest(){
+        /* EPs are:
+        positive numbers 0 to infinity (valid)
+        decimal places (0dp, 1dp, 2dp valid; 3dp+ invalid)
+        negative numbers (invalid)
+
+        BVA: (BVs are:)
+        0 (valid - boundary between negative and positive)
+        0.99 (valid - boundary between 2dp and 3dp)
+        0.1 (valid - boundary between 0dp and 1dp)
+        0.001 (invalid)
+        -432.10 (invalid)
+        */
+
+        assertTrue(BankAccount.isAmountValid(200)); // valid positive number
+        assertTrue(BankAccount.isAmountValid(0)); // BVA boundary between negative and positive
+
+        assertTrue(BankAccount.isAmountValid(200.25)); // valid with 2 decimal places
+        assertTrue(BankAccount.isAmountValid(0.99)); // BVA boundary between 2dp and 3dp
+        assertFalse(BankAccount.isAmountValid(200.999)); // invalid with 3 decimal places
+        
+        assertFalse(BankAccount.isAmountValid(-50)); // invalid with negative number
+        
+    }
+
 }

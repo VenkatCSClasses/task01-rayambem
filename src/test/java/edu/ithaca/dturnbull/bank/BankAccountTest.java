@@ -19,8 +19,7 @@ class BankAccountTest {
         BankAccount emptyAccount = new BankAccount("a@b.com", 0);
         assertEquals(0, emptyAccount.getBalance(), 0.001);   // Boundary case: zero balance
 
-        BankAccount negativeBalanceAccount = new BankAccount("a@b.com", -100);
-        assertThrows(IllegalArgumentException.class, () -> negativeBalanceAccount.getBalance()); // Invalid case: negative starting balance
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com", -100)); // Invalid case: negative starting balance
     }
 
     @Test

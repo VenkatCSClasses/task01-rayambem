@@ -110,7 +110,15 @@ public class BankAccount {
      * @return false otherwise
      */
     public static boolean isAmountValid(double amount) {
-        return false;
+        String amountString = Double.toString(Math.abs(amount));
+        int indexOfDecimal = amountString.indexOf('.');
+        int decimalPlaces = amountString.length() - indexOfDecimal - 1;
+
+        if (amount >= 0 && decimalPlaces <=2 ) {
+            return true;
+        } else {
+            return false;
+        }   
     }
 
 }

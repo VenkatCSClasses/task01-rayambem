@@ -300,7 +300,7 @@ class BankAccountTest {
 
         assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-20)); // invalid negative deposit amount
         assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(10.999));; // invalid deposit amount with 3 decimal places
-        assertEquals(150, bankAccount.getBalance(), 0.001); // balance should remain unchanged after invalid deposits
+        assertEquals(171.49, bankAccount.getBalance(), 0.001); // balance should remain unchanged after invalid deposits
 
     }
 

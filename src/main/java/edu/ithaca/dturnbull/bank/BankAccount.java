@@ -58,7 +58,15 @@ public class BankAccount {
      * @post increases the balance by amount if amount is non-negative
      */
     public void deposit(double amount){
-        
+        String amountString = Double.toString(Math.abs(amount));
+        int indexOfDecimal = amountString.indexOf('.');
+        int decimalPlaces = amountString.length() - indexOfDecimal - 1;
+
+        if (amount >= 0 && decimalPlaces <=2 ) {
+            balance +=amount;
+        } else {
+            throw new IllegalArgumentException("Deposit amount: " + amount + " is invalid");
+        }
     }
 
     /**
@@ -67,7 +75,20 @@ public class BankAccount {
      * @throws InsufficientFundsException if amount is larger than balance
      */
     public void transfer(BankAccount toAccount, double amount) throws InsufficientFundsException {
-       
+        String amountString = Double.toString(Math.abs(amount));
+        int indexOfDecimal = amountString.indexOf('.');
+        int decimalPlaces = amountString.length() - indexOfDecimal - 1;
+
+        if (amount >= 0 && decimalPlaces <=2 ) {
+            if (amount > balance) {
+                throw new InsufficientFundsException("Not enough money");
+            } else {
+                this.withdraw(amount);
+                toAccount.deposit(amount);
+            }
+        } else {
+            throw new IllegalArgumentException("Transfer amount: " + amount + " is invalid");
+        }
     }
 
     public static boolean isEmailValid(String email) {

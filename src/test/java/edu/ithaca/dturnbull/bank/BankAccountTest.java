@@ -234,4 +234,74 @@ class BankAccountTest {
         
     }
 
+    @Test
+    void transferTest() throws InsufficientFundsException {
+        /* EPs are:
+        toAccount exists (valid)
+        transferAmount positive numbers 0 to infinity (valid)
+        transferAmount decimal places (0dp, 1dp, 2dp valid; 3dp+ invalid)
+        transferAmount negative numbers (invalid)
+        transferAmount less than or equal to balance (valid)
+        transferAmount greater than balance (invalid)
+
+        BVA: (BVs are:)
+        0 (valid - boundary between negative and positive)
+        0.99 (valid - boundary between 2dp and 3dp)
+        0.001 (invalid - boundary between 2dp and 3dp)
+        transferAmount = balance (valid - boundary between less than and equal to balance)
+        */
+
+        BankAccount fromAccount = new BankAccount("a@b.com", 200);
+        BankAccount toAccount = new BankAccount("b@a.com", 100);
+        
+        fromAccount.transfer(toAccount, 50); // valid transfer (normal case)
+        assertEquals(150, fromAccount.getBalance(), 0.001);
+        assertEquals(150, toAccount.getBalance(), 0.001);
+
+        fromAccount.transfer(toAccount, 0); // BVA boundary between negative and positive
+        assertEquals(150, fromAccount.getBalance(), 0.001);
+        assertEquals(150, toAccount.getBalance(), 0.001);
+
+        fromAccount.transfer(toAccount, 150); // BVA boundary between less than and equal to balance
+        assertEquals(0, fromAccount.getBalance(), 0.001);
+
+        assertThrows(IllegalArgumentException.class, () -> fromAccount.transfer(toAccount, -20)); // invalid negative transfer amount
+        assertThrows(IllegalArgumentException.class, () -> fromAccount.transfer(toAccount, 10.999)); // invalid transfer amount with 3 decimal places
+        assertThrows(InsufficientFundsException.class, () -> fromAccount.transfer(toAccount, 10)); // invalid transfer amount greater than balance
+
+    }
+
+    @Test
+    void depositTest(){
+        /* EPs are:
+        depositAmount positive numbers 0 to infinity (valid)
+        depositAmount decimal places (0dp, 1dp, 2dp valid; 3dp+ invalid)
+        depositAmount negative numbers (invalid)
+
+        BVA: (BVs are:)
+        0 (valid - boundary between negative and positive)
+        0.99 (valid - boundary between 2dp and 3dp)
+        0.001 (invalid)
+        */
+
+        BankAccount bankAccount = new BankAccount("a@b.com", 100);
+
+        bankAccount.deposit(50); // valid deposit (normal case)
+        assertEquals(150, bankAccount.getBalance(), 0.001);
+
+        bankAccount.deposit(20.5); // valid deposit with 1 decimal places
+        assertEquals(170.5, bankAccount.getBalance(), 0.001);
+
+        bankAccount.deposit(0); // BV between negative and positive
+        assertEquals(170.5, bankAccount.getBalance(), 0.001);
+
+        bankAccount.deposit(0.99); // BV between 2dp and 3dp
+        assertEquals(171.49, bankAccount.getBalance(), 0.001);
+
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-20)); // invalid negative deposit amount
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(10.999));; // invalid deposit amount with 3 decimal places
+        assertEquals(150, bankAccount.getBalance(), 0.001); // balance should remain unchanged after invalid deposits
+
+    }
+
 }
